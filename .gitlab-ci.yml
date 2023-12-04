@@ -1,27 +1,27 @@
 stages:
+  - setup
   - build
-  - deploy
 
 variables:
   FLUTTER_CHANNEL: "stable"
+  FLUTTER_VERSION: "3.16.2" # Update to the desired Flutter version
 
 before_script:
   - apt-get update -qq
   - apt-get install -y lib32stdc++6
+  - export PATH="$PATH":"$HOME/.pub-cache/bin"
   - flutter channel $FLUTTER_CHANNEL
-  - flutter upgrade
+  - flutter upgrade --force
   - flutter config --enable-web
   - flutter pub get
 
-build:
+install_dependencies:
+  stage: setup
+  script:
+    - echo "Installing Flutter dependencies..."
+
+build_project:
   stage: build
   script:
+    - echo "Building the Flutter project..."
     - flutter build web
-
-deploy:
-  stage: deploy
-  only:
-    - master
-  script:
-    - echo "Deploying to Vercel..."
-    - vercel --prod
