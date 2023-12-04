@@ -1,0 +1,27 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  FLUTTER_CHANNEL: "stable"
+
+before_script:
+  - apt-get update -qq
+  - apt-get install -y lib32stdc++6
+  - flutter channel $FLUTTER_CHANNEL
+  - flutter upgrade
+  - flutter config --enable-web
+  - flutter pub get
+
+build:
+  stage: build
+  script:
+    - flutter build web
+
+deploy:
+  stage: deploy
+  only:
+    - master
+  script:
+    - echo "Deploying to Vercel..."
+    - vercel --prod

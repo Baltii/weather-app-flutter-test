@@ -5,26 +5,61 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controller/HomeController.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_application_1/main.dart';
-
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  group('HomeController', () {
+    test('getCurrentWeatherData success', () {
+      // Arrange
+      HomeController homeController = HomeController(city: 'Tunisia');
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+      // Act
+      homeController.getCurrentWeatherData();
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+      // Assert
+      expect(homeController.hasError, isFalse);
+      expect(homeController.errorMessage, isEmpty);
+      expect(homeController.currentWeatherData, isNotNull);
+    });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    test('getCurrentWeatherData error', () {
+      // Arrange
+      HomeController homeController = HomeController(city: 'zcdzeda');
+
+      // Act
+      homeController.getCurrentWeatherData();
+
+      // Assert
+      expect(homeController.hasError, isTrue);
+      expect(homeController.errorMessage, 'Please enter a valid city name.');
+      expect(homeController.currentWeatherData, isNull);
+    });
+
+    test('updateWeather', () {
+      // Arrange
+      HomeController homeController = HomeController(city: 'Tunisia');
+
+      // Act
+      homeController.updateWeather();
+
+      // Assert
+      expect(homeController.hasError, isFalse);
+      expect(homeController.errorMessage, isEmpty);
+      expect(homeController.currentWeatherData, isNotNull);
+    });
+
+    test('initState', () {
+      // Arrange
+      HomeController homeController = HomeController(city: 'Tunisia');
+
+      // Act
+      homeController.initState();
+
+      // Assert
+      expect(homeController.hasError, isFalse);
+      expect(homeController.errorMessage, isEmpty);
+      expect(homeController.currentWeatherData, isNotNull);
+    });
   });
 }
