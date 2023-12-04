@@ -9,74 +9,74 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          // Fond de l'arrière-plan
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                colorFilter: ColorFilter.mode(
-                  Colors.black38,
-                  BlendMode.darken,
-                ),
-                image: AssetImage(
-                  '../../assets/images/cloud-in-blue-sky.jpg',
-                ),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          // Contenu de la page
-          Column(
+      body: GetBuilder<HomeController>(
+        builder: (controller) {
+          return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              // Barre de recherche
               Container(
-                padding: EdgeInsets.only(top: 100, left: 20, right: 20),
-                child: Column(
-                  children: <Widget>[
-                    TextField(
-                      onChanged: (value) => controller.city = value,
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                      textInputAction: TextInputAction.search,
-                      onSubmitted: (value) => controller.updateWeather(),
-                      decoration: InputDecoration(
-                        suffix: Icon(
-                          Icons.search,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    colorFilter: ColorFilter.mode(
+                      Colors.black38,
+                      BlendMode.darken,
+                    ),
+                    image: AssetImage(
+                      '../../assets/images/cloud-in-blue-sky.jpg',
+                    ),
+                    fit: BoxFit.fill,
+                  ),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(25),
+                    bottomRight: Radius.circular(25),
+                  ),
+                ),
+                child: Container(
+                  padding: EdgeInsets.only(top: 100, left: 20, right: 20),
+                  child: Column(
+                    children: <Widget>[
+                      TextField(
+                        onChanged: (value) => controller.city = value,
+                        style: TextStyle(
                           color: Colors.white,
                         ),
-                        hintStyle: TextStyle(color: Colors.white),
-                        hintText: 'Search'.toUpperCase(),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.white),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.white),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Visibility(
-                      visible: controller.hasError,
-                      child: Text(
-                        controller.errorMessage,
-                        style: TextStyle(
-                          color: const Color.fromARGB(255, 235, 7, 7),
+                        textInputAction: TextInputAction.search,
+                        onSubmitted: (value) => controller.updateWeather(),
+                        decoration: InputDecoration(
+                          suffix: Icon(
+                            Icons.search,
+                            color: Colors.white,
+                          ),
+                          hintStyle: TextStyle(color: Colors.white),
+                          hintText: 'Search'.toUpperCase(),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(height: 12),
+                      Visibility(
+                        visible: controller.hasError,
+                        child: Text(
+                          controller.errorMessage,
+                          style: TextStyle(
+                            color: const Color.fromARGB(255, 235, 7, 7),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              // Contenu principal
               Expanded(
                 child: Container(
                   margin: EdgeInsets.only(bottom: 5),
@@ -196,7 +196,7 @@ class HomeScreen extends GetView<HomeController> {
                                           children: <Widget>[
                                             SizedBox(
                                               width: 120,
-                                              height: 120,
+                                              height: 100,
                                               child: LottieBuilder.asset(
                                                   Images.cloudyAnim),
                                             ),
@@ -232,8 +232,8 @@ class HomeScreen extends GetView<HomeController> {
                 ),
               ),
             ],
-          ),
-        ],
+          );
+        },
       ),
     );
   }
