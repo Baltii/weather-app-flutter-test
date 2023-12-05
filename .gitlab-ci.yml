@@ -1,6 +1,7 @@
 stages:
   - setup
   - build
+  - test
 
 variables:
   FLUTTER_CHANNEL: "stable"
@@ -25,3 +26,17 @@ build_project:
   script:
     - echo "Building the Flutter project..."
     - flutter build web
+
+flutter_test:
+  stage: test
+  script:
+    - ./testRunner.sh ## This is your shell file path which has test execution command
+
+  tags:
+    - testRunnerMachine
+
+  artifacts: ## Stroing the xml report as artifacts
+    when: always
+    reports:
+      junit:
+        - junit-report.xml
